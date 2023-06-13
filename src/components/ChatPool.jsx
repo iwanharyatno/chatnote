@@ -7,6 +7,29 @@ function ChatPool({ messages, className }) {
     messages.slice(messages.length - numMessage, messages.length) :
     messages;
 
+  const showLinks = () => {
+    if (numMessage < messages.length) {
+      return (
+        <LinkButton
+          onClick={() => setNumMessage(numMessage + 10)}>
+            Show more..
+        </LinkButton>
+      );
+    }
+    if (
+      maxMessages.length === messages.length &&
+      numMessage !== 10
+    ) {
+      return (
+        <LinkButton
+          onClick={() => setNumMessage(10)}>
+            Show less
+        </LinkButton>
+      );
+    }
+    return null;
+  }
+
   useEffect(() => {
     const messagesContainer = document.querySelector('.messages');
     messagesContainer.lastElementChild.scrollIntoView();
@@ -14,14 +37,10 @@ function ChatPool({ messages, className }) {
 
   return (
     <ul className={'messages overflow-scroll bg-gray-100/50 ' + className}>
-      {numMessage < messages.length ? (
-        <LinkButton onClick={() => setNumMessage(numMessage + 10)}>Show more..</LinkButton>
-      ) : (
-        <LinkButton onClick={() => setNumMessage(10)}>Show less</LinkButton>
-      )}
+      {showLinks()}
       {
         maxMessages.length ?
-        maxMessages.map(message => (<ChatBox message={message} />)) :
+        showMessages(maxMessages) :
         (
           <div className="text-center ml-5 mr-5 mt-12 text-gray-400 text-small italic">
             Hey, what's up? feel free to tell anything here.<br/>
@@ -34,9 +53,13 @@ function ChatPool({ messages, className }) {
   );
 }
 
-function LinkButton({ onClick, children }) {
+function showMessages(messages) {
+  return messages.map(message => (<ChatBox message={message} />));
+}
+
+function LinkButton({ onClick, className, children }) {
   return (
-    <li className="px-3 pt-3 text-center" key={+new Date()}>
+    <li className={'px-3 pt-3 text-center ' + className} key={+new Date()}>
       <a
         className="text-blue-500 focus:text-blue-700"
         href="javascript:void(0)"
