@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 function ChatPanel({ onMessage }) {
   const [content, setContent] = useState('');
+  const textBoxRef = useRef(null);
 
   const sendMessage = () => {
     if (onMessage) {
@@ -10,11 +11,15 @@ function ChatPanel({ onMessage }) {
       )
     }
     setContent('');
+    if (textBoxRef && textBoxRef.current) {
+      textBoxRef.current.focus();
+    }
   }
 
   return (
     <div className="p-4 border-t flex justify-stretch items-end">
       <textarea
+        ref={textBoxRef}
         placeholder="What's on your mind?"
         className="font-arial border rounded flex-grow focus:outline-none p-2"
         onChange={(e) => setContent(e.target.value)}
