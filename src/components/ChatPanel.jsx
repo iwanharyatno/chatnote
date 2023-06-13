@@ -13,7 +13,7 @@ function ChatPanel({ onMessage }) {
   }
 
   return (
-    <div className="p-4 border-t flex justify-stretch items-start">
+    <div className="p-4 border-t flex justify-stretch items-end">
       <textarea
         placeholder="What's on your mind?"
         className="font-arial border rounded flex-grow focus:outline-none p-2"
