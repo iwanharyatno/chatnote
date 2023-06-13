@@ -6,7 +6,7 @@ function ChatPool({ messages, className }) {
 
   useEffect(() => {
     containerRef.scrollTop = containerRef.scrollHeight;
-  }, [messages]);
+  });
 
   return (
     <div className={'overflow-scroll bg-gray-100/50 ' + className} ref={containerRef}>
