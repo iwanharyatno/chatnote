@@ -37,7 +37,7 @@ function newMessage(content) {
   return {
     id: +new Date(),
     content,
-    time: new Date()
+    date: new Date()
   }
 }
 

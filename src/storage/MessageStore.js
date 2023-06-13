@@ -8,8 +8,9 @@ const MessageStore = {
     const messagesJson = localStorage.getItem(APP_MESSAGE_STORE_KEY);
     if (messagesJson) {
       return JSON.parse(messagesJson).map(message => ({
-        ...message,
-        date: new Date(message.date)
+        id: message.id,
+        date: new Date(message.date),
+        content: message.content,
       }));
     }
     return [];
