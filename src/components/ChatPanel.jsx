@@ -5,15 +5,16 @@ function ChatPanel({ onMessage }) {
   const textBoxRef = useRef(null);
 
   const sendMessage = () => {
+    if (textBoxRef && textBoxRef.current) {
+      textBoxRef.current.focus();
+    }
+    if (content === '') return;
     if (onMessage) {
       onMessage(
         newMessage(content)
       )
     }
     setContent('');
-    if (textBoxRef && textBoxRef.current) {
-      textBoxRef.current.focus();
-    }
   }
 
   return (
@@ -21,7 +22,7 @@ function ChatPanel({ onMessage }) {
       <textarea
         ref={textBoxRef}
         placeholder="What's on your mind?"
-        className="font-arial border rounded flex-grow focus:outline-none p-2"
+        className="font-arial border rounded flex-grow focus:outline-blue-500 p-2"
         onChange={(e) => setContent(e.target.value)}
         value={content}>
       </textarea>
