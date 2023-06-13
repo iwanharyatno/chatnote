@@ -1,25 +1,35 @@
 import { useRef, useEffect } from 'react';
 
 function ChatPool({ messages, className }) {
-  const containerRef = useRef(null);
-  const maxMessages = messages.slice(messages.length - 10, messages.length);
+  const maxMessages = messages.length > 10 ?
+    messages.slice(messages.length - 10, messages.length) :
+    messages;
 
   useEffect(() => {
-    containerRef.scrollTop = containerRef.scrollHeight;
+    const messagesContainer = document.querySelector('.messages');
+    messagesContainer.lastElementChild.scrollIntoView();
   });
 
   return (
-    <div className={'overflow-scroll bg-gray-100/50 ' + className} ref={containerRef}>
-      {maxMessages && maxMessages.map(message => (<ChatBox message={message} />))}
-    </div>
+    <ul className={'messages overflow-scroll bg-gray-100/50 ' + className}>
+      {
+        maxMessages.length ?
+        maxMessages.map(message => (<ChatBox message={message} />)) :
+        (<div className="text-center ml-5 mr-5 mt-12 text-gray-400 text-small italic">
+          Hey, what's up? feel free to tell anything here.<br/>
+          Your notes will only be saved locally.<br/>
+          No servers, No backend or anything.<br/>
+        </div>)
+      }
+    </ul>
   );
 }
 
 function ChatBox({ message }) {
   return (
-    <div className="p-3 border rounded-lg m-3 bg-white">
+    <li className="p-3 border rounded-lg m-3 bg-white break-words" key={message.id}>
       {message.content}
-    </div>
+    </li>
   );
 }
 
