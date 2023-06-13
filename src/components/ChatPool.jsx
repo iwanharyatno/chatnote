@@ -117,7 +117,7 @@ function DateSeparator({ date }) {
     return date.toLocaleDateString();
   };
   return (
-    <li className="px-3 pt-3 text-center">
+    <li className="sticky top-0 pt-3 text-center">
       <span className="bg-gray-500 text-white p-2 rounded">{displayedLabel()}</span>
     </li>
   );
