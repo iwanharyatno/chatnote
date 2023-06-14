@@ -72,7 +72,7 @@ function ChatPool({ messages, className }) {
 function showMessages(messages) {
   const adjustedMessages = [
     <DateSeparator date={messages[0].date} key={messages[0].id.toString() + random()} />,
-    <ChatBox message={messages[0]} key={messages[0].id.toString() + random()} />,
+    <MessageBox message={messages[0]} key={messages[0].id.toString() + random()} />,
   ];
 
   for (var i = 1; i < messages.length; i++) {
@@ -94,7 +94,7 @@ function showMessagesWithSeparator(prevMessage, currentMessage) {
   }
 
   result.push(
-    <ChatBox message={currentMessage} key={currentMessage.id.toString() + random()} />
+    <MessageBox message={currentMessage} key={currentMessage.id.toString() + random()} />
   );
 
   return result;
@@ -136,11 +136,11 @@ function LinkButton({ onClick, className, children }) {
   );
 }
 
-function ChatBox({ message }) {
+function MessageBox({ message }) {
   return (
     <li className="p-3 border rounded-lg m-3 bg-white break-words">
       {message.content}
-      <div className="text-right italic text-gray-500">
+      <div className="text-right italic text-gray-500 text-sm">
         {`${message.date.getHours()}:${message.date.getMinutes().toString().padStart(2, "0")}`}
       </div>
     </li>
