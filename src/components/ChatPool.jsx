@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react';
 import { useState } from 'react';
 
 const MILLIS_IN_SECOND = 1000;
+const SECONDS_IN_MINUTE = 60;
 const SECONDS_IN_HOUR = 3600;
 const HOURS_IN_DAY = 24;
 const DAYS_IN_WEEK = 7;
@@ -153,7 +154,8 @@ function random(digits = 7) {
 }
 
 function getDaysFromDate(date) {
-  const dateInMillis = date.getTime();
+  const timezoneOffsetMillis = date.getTimezoneOffset() * SECONDS_IN_MINUTE * MILLIS_IN_SECOND;
+  const dateInMillis = date.getTime() - timezoneOffsetMillis;
   const days = Math.floor(dateInMillis / (MILLIS_IN_SECOND * SECONDS_IN_HOUR * HOURS_IN_DAY));
   return days;
 }
