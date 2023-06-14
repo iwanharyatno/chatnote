@@ -17,6 +17,25 @@ const DAYS = [
   'Saturday',
 ];
 
+let dateSeparatorStack = [];
+const separatorObserver = new IntersectionObserver(entries => {
+  const entry = entries.length == 2 ? entries[1] : entries[0];
+  if (!entry.isIntersecting) {
+    dateSeparatorStack.push(entry.target);
+  } else {
+    dateSeparatorStack = dateSeparatorStack.filter(ds => ds.id !== entry.target.id);
+  }
+
+  const latestDs = dateSeparatorStack[dateSeparatorStack.length - 1];
+  dateSeparatorStack.forEach(ds => {
+    if (latestDs.id !== ds.id) ds.style.display = 'none';
+    else ds.style.display = 'block';
+  });
+}, {
+  rootMargin: '-1px 0px 0px 0px',
+  threshold: [1],
+});
+
 function ChatPool({ messages, className }) {
   const [numMessage, setNumMessage] = useState(10);
   const maxMessages = messages.length > numMessage ?
@@ -70,8 +89,9 @@ function ChatPool({ messages, className }) {
 }
 
 function showMessages(messages) {
+  const randKey = messages[0].id.toString() + random();
   const adjustedMessages = [
-    <DateSeparator date={messages[0].date} key={messages[0].id.toString() + random()} />,
+    <DateSeparator date={messages[0].date} key={randKey} id={randKey} />,
     <MessageBox message={messages[0]} key={messages[0].id.toString() + random()} />,
   ];
 
@@ -88,8 +108,9 @@ function showMessagesWithSeparator(prevMessage, currentMessage) {
   const result = [];
 
   if (getDaysFromDate(prevMessage.date) !== getDaysFromDate(currentMessage.date)) {
+    const randKey = currentMessage.id.toString() + random();
     result.push(
-      <DateSeparator date={currentMessage.date} key={currentMessage.id.toString() + random()} />
+      <DateSeparator date={currentMessage.date} key={randKey} id={randKey} />
     );
   }
 
@@ -100,7 +121,7 @@ function showMessagesWithSeparator(prevMessage, currentMessage) {
   return result;
 }
 
-function DateSeparator({ date }) {
+function DateSeparator({ date, id }) {
   const displayedLabel = () => {
     const currentDate = new Date();
     if (getDaysFromDate(date) === getDaysFromDate(currentDate)) {
@@ -117,8 +138,14 @@ function DateSeparator({ date }) {
 
     return date.toLocaleDateString();
   };
+
+  useEffect(() => {
+    const thisSeparator = document.querySelector(`#ds${id}`);
+    separatorObserver.observe(thisSeparator);
+  }, []);
+
   return (
-    <li className="sticky top-0 pt-3 text-center">
+    <li className="sticky top-0 pt-3 text-center" id={'ds' + id}>
       <span className="bg-gray-500 text-white p-2 rounded">{displayedLabel()}</span>
     </li>
   );
