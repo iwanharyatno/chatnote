@@ -53,7 +53,7 @@ function ChatPool({ messages, className }) {
   }, [messages]);
 
   return (
-    <ul className={'messages overflow-scroll bg-gray-100/50 ' + className}>
+    <ul className={'messages overflow-auto bg-gray-100/50 ' + className}>
       {showLinks()}
       {
         maxMessages.length ?
