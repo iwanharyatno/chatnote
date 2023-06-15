@@ -17,24 +17,6 @@ const DAYS = [
   'Saturday',
 ];
 
-let dateSeparatorStack = [];
-const separatorObserver = new IntersectionObserver(entries => {
-  const entry = entries.length == 2 ? entries[1] : entries[0];
-  if (!entry.isIntersecting) {
-    dateSeparatorStack.push(entry.target);
-  } else {
-    dateSeparatorStack = dateSeparatorStack.filter(ds => ds.id !== entry.target.id);
-  }
-
-  const latestDs = dateSeparatorStack[dateSeparatorStack.length - 1];
-  dateSeparatorStack.forEach(ds => {
-    if (latestDs.id !== ds.id) ds.style.display = 'none';
-    else ds.style.display = 'block';
-  });
-}, {
-  rootMargin: '-1px 0px 0px 0px',
-  threshold: [1],
-});
 
 function ChatPool({ messages, className }) {
   const [numMessage, setNumMessage] = useState(10);
@@ -139,13 +121,8 @@ function DateSeparator({ date, id }) {
     return date.toLocaleDateString();
   };
 
-  useEffect(() => {
-    const thisSeparator = document.querySelector(`#ds${id}`);
-    separatorObserver.observe(thisSeparator);
-  }, []);
-
   return (
-    <li className="sticky top-0 pt-3 text-center" id={'ds' + id}>
+    <li className="sticky top-0 pt-3 text-center text-sm date-separator">
       <span className="bg-gray-500 text-white p-2 rounded">{displayedLabel()}</span>
     </li>
   );
