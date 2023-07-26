@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import Button from '../../shared/Button';
 
 function ChatPanel({ onMessage }) {
   const [content, setContent] = useState('');
@@ -18,7 +19,7 @@ function ChatPanel({ onMessage }) {
   }
 
   return (
-    <div className="p-4 border-t flex justify-stretch items-end">
+    <div className="p-4 border-t flex justify-stretch gap-x-4 items-end">
       <textarea
         ref={textBoxRef}
         placeholder="What's on your mind?"
@@ -26,9 +27,9 @@ function ChatPanel({ onMessage }) {
         onChange={(e) => setContent(e.target.value)}
         value={content}>
       </textarea>
-      <button
-        className="px-5 py-2 ml-3 bg-blue-500 hover:bg-blue-700 rounded text-white"
-        onClick={sendMessage}>Send</button>
+      <Button onClick={sendMessage}>
+        Send
+      </Button>
     </div>
   );
 }
