@@ -143,7 +143,7 @@ function LinkButton({ onClick, className, children }) {
 function MessageBox({ message }) {
   return (
     <li className="p-3 border rounded-lg m-3 bg-white break-words">
-      <pre className="font-sans">{message.content}</pre>
+      <pre className="font-sans break-words whitespace-pre-line">{message.content}</pre>
       <div className="text-right italic text-gray-500 text-sm">
         {`${message.date.getHours()}:${message.date.getMinutes().toString().padStart(2, "0")}`}
       </div>
